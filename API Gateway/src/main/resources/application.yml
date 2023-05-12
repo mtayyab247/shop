@@ -1,14 +1,24 @@
 
 server:
-  port: 8102
+  port: 8101
 spring:
   application:
     name: Shop API Gateway
 
   cloud:
     gateway:
-      routes:
-        - id: productService
-          uri: http://localhost:8101/
-          predicates:
-            - Path=/api/v1/products/**
+#      routes:
+#        - id: productService
+#          uri: http://localhost:8102/
+#          predicates:
+#            - Path=/api/v1/products/**
+      discovery:
+        locator:
+          enabled: true
+          lowerCaseServiceId: true
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8100/eureka
+    instance.preferIpAddress: true
