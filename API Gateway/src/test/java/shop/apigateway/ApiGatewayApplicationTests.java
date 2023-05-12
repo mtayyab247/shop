@@ -1,10 +1,10 @@
-package shop.shopregistry;
+package shop.apigateway;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ShopRegistryApplicationTests {
+class ApiGatewayApplicationTests {
 
     @Test
     void contextLoads() {

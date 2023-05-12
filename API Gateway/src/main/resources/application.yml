@@ -1,0 +1,14 @@
+
+server:
+  port: 8102
+spring:
+  application:
+    name: Shop API Gateway
+
+  cloud:
+    gateway:
+      routes:
+        - id: productService
+          uri: http://localhost:8101/
+          predicates:
+            - Path=/api/v1/products/**
