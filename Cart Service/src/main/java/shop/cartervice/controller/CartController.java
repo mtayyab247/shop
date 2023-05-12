@@ -1,4 +1,4 @@
-package shop.cartervice.controllers;
+package shop.cartervice.controller;
 
 
 import org.springframework.http.HttpStatus;
