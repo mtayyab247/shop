@@ -15,6 +15,7 @@ import shop.productservice.service.impl.CategoryService;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -52,12 +53,19 @@ public class ProductService implements IProductService {
         }).collect(Collectors.toList()));
 
         return ProductDTOAdapter.getProductDTO(productRepository.save(product));
-//        return productRepository.save(product);
     }
 
     public Product updateProduct(Product product)//+ change status
     {
-        return null;
+        Optional<Product> storedProductOptional = productRepository.findById(product.getId());
+        Product storedProduct;
+        
+        if(storedProductOptional.isPresent()) {
+            storedProduct = storedProductOptional.get();
+            product.setCreatedDateTime(storedProduct.getCreatedDateTime());
+        }
+
+        return productRepository.save(product);
     }
 
     public Product deleteProduct(Product product) {
