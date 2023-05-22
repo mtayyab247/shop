@@ -7,11 +7,6 @@ spring:
 
   cloud:
     gateway:
-#      routes:
-#        - id: productService
-#          uri: http://localhost:8102/
-#          predicates:
-#            - Path=/api/v1/products/**
       discovery:
         locator:
           enabled: true
