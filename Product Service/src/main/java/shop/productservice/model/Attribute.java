@@ -12,7 +12,7 @@ import java.util.List;
 @Table(name = "attributes")
 public class Attribute {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Integer id;
     private String name;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

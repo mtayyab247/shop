@@ -8,6 +8,6 @@ import lombok.Data;
 @Table(name = "attribute_values")
 public class AttributeValue {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Integer id;
     private String value;
 }

@@ -20,7 +20,7 @@ import java.util.List;
 @Table(name = "product")
 public class Product {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Integer id;
 
     private String name;
     private double price;
@@ -47,9 +47,9 @@ public class Product {
     private int createdBy; // adminid
 
     @CreatedDate
-    private LocalDateTime createdDateTime;
+    private LocalDateTime createdDateTime = LocalDateTime.now();
 
     @LastModifiedDate
-    private LocalDateTime lastModified;
+    private LocalDateTime lastModified = LocalDateTime.now();
 
 }
