@@ -25,6 +25,7 @@ public class Product {
     private String name;
     private double price;
     private String description;
+    private Status status;
 
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> images = new ArrayList<>();
