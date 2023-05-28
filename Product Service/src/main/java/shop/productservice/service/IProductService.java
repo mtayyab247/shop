@@ -9,9 +9,10 @@ import java.util.List;
 
 public interface IProductService {
     public List<Product> listProducts();
+    public Product getProductById(Integer id);
     public NewProductDTO saveProduct(NewProductDTO newProductDTO);
     public Product updateProduct(Product product);//+ change status
-    public Product deleteProduct(Product product);
+    public void deleteProduct(Integer id);
     public List<Product> listProductsByCategory(Category category);
     public List<Product> searchProducts(String queryString);
     public List<Product> filterProducts(List<Attribute> attributes);

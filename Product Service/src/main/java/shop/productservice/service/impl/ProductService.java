@@ -1,7 +1,11 @@
 package shop.productservice.service.impl;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import shop.productservice.model.Attribute;
 import shop.productservice.model.Category;
 import shop.productservice.model.Product;
@@ -36,8 +40,16 @@ public class ProductService implements IProductService {
     }
 
     @Override
+    @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.SUPPORTS, readOnly = true)
     public List<Product> listProducts() {
         return (List<Product>) productRepository.findAll();
+    }
+
+    @Override
+    public Product getProductById(Integer id) {
+        return productRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException()
+        );
     }
 
     public NewProductDTO saveProduct(NewProductDTO newProductDTO) {
@@ -68,8 +80,13 @@ public class ProductService implements IProductService {
         return productRepository.save(product);
     }
 
-    public Product deleteProduct(Product product) {
-        return null;
+    @Transactional(isolation = Isolation.SERIALIZABLE, propagation = Propagation.REQUIRED)
+    public void deleteProduct(Integer id) {
+        Product product = productRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException()
+        );
+
+        productRepository.delete(product);
     }
 
     public List<Product> listProductsByCategory(Category category) {

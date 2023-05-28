@@ -1,6 +1,7 @@
 package shop.productservice.controller;
 
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,5 +38,15 @@ public class ProductController {
     @PutMapping("")
     public ResponseEntity<?> updateProduct(@RequestBody Product product) {
         return new ResponseEntity<Product>(productService.updateProduct(product), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/product/{id}")
+    public ResponseEntity<?> deleteProduct(@PathVariable Integer id) {
+        try {
+            productService.deleteProduct(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch(EntityNotFoundException ex) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }
