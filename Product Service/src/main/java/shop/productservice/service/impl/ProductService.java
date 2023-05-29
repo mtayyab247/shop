@@ -67,17 +67,15 @@ public class ProductService implements IProductService {
         return ProductDTOAdapter.getProductDTO(productRepository.save(product));
     }
 
-    public Product updateProduct(Product product)//+ change status
-    {
+    public Product updateProduct(Product product) {//+ change status
         Optional<Product> storedProductOptional = productRepository.findById(product.getId());
         Product storedProduct;
         
         if(storedProductOptional.isPresent()) {
             storedProduct = storedProductOptional.get();
             product.setCreatedDateTime(storedProduct.getCreatedDateTime());
-        }
-
-        return productRepository.save(product);
+            return productRepository.save(product);
+        } else throw new EntityNotFoundException();
     }
 
     @Transactional(isolation = Isolation.SERIALIZABLE, propagation = Propagation.REQUIRED)

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import shop.productservice.model.Product;
 import shop.productservice.service.impl.ProductService;
 import shop.productservice.service.dto.NewProductDTO;
@@ -25,28 +26,39 @@ public class ProductController {
 
     @GetMapping("")
     public ResponseEntity<?> listProducts() {
-        System.out.println("new request");
         return new ResponseEntity<List<Product>>(productService.listProducts(), HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getProductById(@PathVariable Integer id) {
+        try {
+            return new ResponseEntity<Product>(productService.getProductById(id), HttpStatus.OK);
+        } catch(EntityNotFoundException exception) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Product with id=%d not found!", id), exception);
+        }
     }
 
     @PostMapping("")
     public ResponseEntity<?> createProduct(@RequestBody NewProductDTO newProductDTO) {
-        System.out.println("new request1" + newProductDTO.toString());
-        return new ResponseEntity<NewProductDTO>(productService.saveProduct(newProductDTO), HttpStatus.OK);
+        return new ResponseEntity<NewProductDTO>(productService.saveProduct(newProductDTO), HttpStatus.CREATED);
     }
 
     @PutMapping("")
     public ResponseEntity<?> updateProduct(@RequestBody Product product) {
-        return new ResponseEntity<Product>(productService.updateProduct(product), HttpStatus.OK);
+        try {
+            return new ResponseEntity<Product>(productService.updateProduct(product), HttpStatus.OK);
+        } catch(EntityNotFoundException exception) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "This product don't exists!", exception);
+        }
     }
 
-    @DeleteMapping("/product/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteProduct(@PathVariable Integer id) {
         try {
             productService.deleteProduct(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch(EntityNotFoundException ex) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch(EntityNotFoundException exception) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Product with id=%d not found!", id), exception);
         }
     }
 }
