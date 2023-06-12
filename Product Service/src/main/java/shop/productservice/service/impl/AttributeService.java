@@ -24,6 +24,14 @@ public class AttributeService implements IAttributeService {
         return (List<Attribute>) attributeRepository.findAll();
     }
 
+    public Attribute getAttributeById() {
+        return null;
+    }
+
+    public Attribute getAttributeByName(String name) {
+        return attributeRepository.getAttributeByName(name);
+    }
+
     public NewAttributeDTO saveAttribute(NewAttributeDTO newAttributeDTO) {
         Attribute attribute = new Attribute();
 
@@ -38,9 +46,5 @@ public class AttributeService implements IAttributeService {
 
     public Attribute deleteAttribute(Attribute attribute) {
         return null;
-    }
-
-    public Attribute getAttributeByName(String name) {
-        return attributeRepository.getAttributeByName(name);
     }
 }

@@ -3,6 +3,7 @@ package shop.productservice.controller;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,8 +26,9 @@ public class ProductController {
     }
 
     @GetMapping("")
-    public ResponseEntity<?> listProducts() {
-        return new ResponseEntity<List<Product>>(productService.listProducts(), HttpStatus.OK);
+    public ResponseEntity<Page<Product>> listProducts(@RequestParam(defaultValue = "0") int pageNumber,
+                                          @RequestParam(defaultValue = "5") int pageSize) {
+        return new ResponseEntity<Page<Product>>(productService.listProducts(pageNumber, pageSize), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
