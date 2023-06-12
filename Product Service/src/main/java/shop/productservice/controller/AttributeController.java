@@ -1,5 +1,6 @@
 package shop.productservice.controller;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.ws.rs.Path;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 import shop.productservice.model.Attribute;
 import shop.productservice.service.impl.AttributeService;
 
@@ -30,12 +32,12 @@ public class AttributeController {
         return new ResponseEntity<List<Attribute>>(attributeService.listAttributes(), HttpStatus.OK);
     }
 
-//    @GetMapping("")
-//    public ResponseEntity
-
     @GetMapping("/{name}")
     public ResponseEntity<?> getAttribute(@PathVariable("name") String name) {
-        System.out.println(name);
-        return new ResponseEntity<Attribute>(attributeService.getAttributeByName(name), HttpStatus.OK);
+        try {
+            return new ResponseEntity<Attribute>(attributeService.getAttributeByName(name), HttpStatus.OK);
+        } catch (EntityNotFoundException exception) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Attribute with name=%s not found!", name), exception);
+        }
     }
 }
