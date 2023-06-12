@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface ICategoryService {
     public Page<Category> listCategories(int pageNumber, int pageSize);
-    public Category getCategoryByID();
+    public Category getCategoryByID(Integer id);
     public Category getCategoryByName(String name);
     public NewCategoryDTO saveProductCategory(NewCategoryDTO newCategoryDTO);
     public Category updateProductCategory(Category category);

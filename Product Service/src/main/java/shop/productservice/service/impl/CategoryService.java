@@ -1,5 +1,6 @@
 package shop.productservice.service.impl;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,16 +29,16 @@ public class CategoryService implements ICategoryService {
         return categoryRepository.findAll(pageable);
     }
 
-    public Category getCategoryByID() {
-        return null;
+    public Category getCategoryByID(Integer id) {
+        return categoryRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException()
+        );
     }
 
     public Category getCategoryByName(String name) { return categoryRepository.getCategoryByName(name); }
 
     public NewCategoryDTO saveProductCategory(NewCategoryDTO newCategoryDTO) {
-        Category category = new Category();
-        category.setName(newCategoryDTO.getName());
-        return CategoryDTOAdapter.getCategoryDTO(categoryRepository.save(category));
+        return CategoryDTOAdapter.getCategoryDTO(categoryRepository.save(CategoryDTOAdapter.getCategory(newCategoryDTO)));
     }
 
     public Category updateProductCategory(Category category) {
