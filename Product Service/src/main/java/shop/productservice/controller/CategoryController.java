@@ -39,7 +39,15 @@ public class CategoryController {
 
     @PostMapping("")
     public ResponseEntity<?> createCategory(@RequestBody NewCategoryDTO newCategoryDTO) {
-        
         return new ResponseEntity<NewCategoryDTO>(categoryService.saveProductCategory(newCategoryDTO), HttpStatus.CREATED);
+    }
+
+    @PutMapping("")
+    public ResponseEntity<?> updateCategory(@RequestBody Category category) {
+        try {
+            return new ResponseEntity<Category>(categoryService.updateProductCategory(category), HttpStatus.OK);
+        } catch (EntityNotFoundException exception) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Category not found!"), exception);
+        }
     }
 }
