@@ -26,6 +26,7 @@ public class AttributeController {
 
     @GetMapping("")
     public ResponseEntity<?> listAttributes() {
+        
         return new ResponseEntity<List<Attribute>>(attributeService.listAttributes(), HttpStatus.OK);
     }
 
