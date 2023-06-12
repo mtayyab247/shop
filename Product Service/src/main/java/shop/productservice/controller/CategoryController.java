@@ -50,4 +50,14 @@ public class CategoryController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Category not found!"), exception);
         }
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteCategory(@PathVariable Integer id) {
+        try {
+            categoryService.deleteProductCategory(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (EntityNotFoundException exception) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Category not found!", exception);
+        }
+    }
 }

@@ -12,5 +12,5 @@ public interface ICategoryService {
     public Category getCategoryByName(String name);
     public NewCategoryDTO saveProductCategory(NewCategoryDTO newCategoryDTO);
     public Category updateProductCategory(Category category);
-    public Category deleteProductCategory(Category category);
+    public void deleteProductCategory(Integer integer);
 }
