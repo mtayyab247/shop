@@ -2,6 +2,7 @@ package shop.productservice.service.impl;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
@@ -13,11 +14,7 @@ import shop.productservice.repository.ProductRepository;
 import shop.productservice.service.IProductService;
 import shop.productservice.service.adapters.ProductDTOAdapter;
 import shop.productservice.service.dto.NewProductDTO;
-import shop.productservice.service.impl.AttributeService;
-import shop.productservice.service.impl.CategoryService;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -41,8 +38,9 @@ public class ProductService implements IProductService {
 
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.SUPPORTS, readOnly = true)
-    public List<Product> listProducts() {
-        return (List<Product>) productRepository.findAll();
+    public Page<Product> listProducts(int pageNumber, int pageSize) {
+        Pageable pageable = (Pageable) PageRequest.of(pageNumber, pageSize);
+        return productRepository.findAll(pageable);
     }
 
     @Override
