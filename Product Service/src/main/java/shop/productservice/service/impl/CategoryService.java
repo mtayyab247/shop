@@ -12,6 +12,7 @@ import shop.productservice.service.ICategoryService;
 import shop.productservice.service.adapters.CategoryDTOAdapter;
 import shop.productservice.service.dto.NewCategoryDTO;
 
+import java.util.Optional;
 
 
 @Service
@@ -42,7 +43,11 @@ public class CategoryService implements ICategoryService {
     }
 
     public Category updateProductCategory(Category category) {
-        return null;
+        Category storedCategory = categoryRepository.findById(category.getId()).orElseThrow(
+                () -> new EntityNotFoundException()
+        );
+
+        return categoryRepository.save(category);
     }
 
     public Category deleteProductCategory(Category category) {
