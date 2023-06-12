@@ -1,5 +1,6 @@
 package shop.productservice.service.impl;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import shop.productservice.model.Attribute;
@@ -29,7 +30,11 @@ public class AttributeService implements IAttributeService {
     }
 
     public Attribute getAttributeByName(String name) {
-        return attributeRepository.getAttributeByName(name);
+        Attribute attribute = attributeRepository.getAttributeByName(name);
+
+        if(attribute == null) throw new EntityNotFoundException();
+
+        return attribute;
     }
 
     public NewAttributeDTO saveAttribute(NewAttributeDTO newAttributeDTO) {
