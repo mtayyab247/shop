@@ -50,7 +50,11 @@ public class CategoryService implements ICategoryService {
         return categoryRepository.save(category);
     }
 
-    public Category deleteProductCategory(Category category) {
-        return null;
+    public void deleteProductCategory(Integer id) {
+        Category category = categoryRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException()
+        );
+
+        categoryRepository.delete(category);
     }
 }
